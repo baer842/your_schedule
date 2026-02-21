@@ -39,5 +39,5 @@ Future<void> sendMessage(String title, String message, {int id = 0}) async {
   );
   var platformDetails = NotificationDetails(android: androidDetails);
   await FlutterLocalNotificationsPlugin()
-      .show(id, title, message, platformDetails);
+      .show(id: id, title: title, body: message, notificationDetails: platformDetails);
 }
