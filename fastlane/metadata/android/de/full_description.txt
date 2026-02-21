@@ -1,5 +1,5 @@
-<p><i>Untis Connect</i> ist ein Open-Source Tool, das dir deinen Untis-Stundenplan übersichtlich anzeigt.</p>
-<p>Warum <i>Untis Connect?</i></p>
+<p><i>EigenPlan für Untis</i> ist ein Open-Source Tool, das dir deinen Untis-Stundenplan übersichtlich anzeigt.</p>
+<p>Warum <i>EigenPlan?</i></p>
 <ul>
     <li>Farben der Fächer selbst festlegen</li>
     <li>Irrelevante Kurse ausblenden</li>

@@ -1,5 +1,5 @@
-<p><i>Untis Connect</i> is an open source tool that shows your Untis timetable.</p>
-<p>Why <i>Untis Connect?</i></p>
+<p><i>EigenPlan for Untis</i> is an open source tool that shows your Untis timetable.</p>
+<p>Why <i>EigenPlan?</i></p>
 <ul>
     <li>Set the colors of the subjects yourself</li>
     <li>Hide irrelevant courses</li>
