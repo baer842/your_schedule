@@ -40,7 +40,7 @@ abstract class AuthParams with _$AuthParams {
 // In that case, the response is discarded and an Exception is thrown.
 int _id = 0;
 
-///Posts a request to the Untis API and returns a Future<RPCResponse> as specified on [jsonrpc.org](https://www.jsonrpc.org/specification).
+/// Posts a request to the Untis API and returns a Future&lt;RPCResponse&gt; as specified on [jsonrpc.org](https://www.jsonrpc.org/specification).
 Future<RPCResponse> rpcRequest({
   required String method,
   required Uri serverUrl,

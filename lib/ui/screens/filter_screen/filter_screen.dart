@@ -133,7 +133,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(18),
                     color: Theme.of(context).colorScheme.onSurface
-                        .withOpacity(0.12),
+                        .withAlpha(30),
                   ),
                   padding: const EdgeInsets.only(left: 10),
                   child: Center(
@@ -311,7 +311,7 @@ class Selectable extends StatelessWidget {
         curve: Curves.easeInOut,
         decoration: BoxDecoration(
           color: selected
-              ? Theme.of(context).colorScheme.onSurface.withOpacity(0.12)
+              ? Theme.of(context).colorScheme.onSurface.withAlpha(30)
               : null,
           borderRadius: BorderRadius.circular(8),
         ),
@@ -350,7 +350,7 @@ class Selectable extends StatelessWidget {
                         color: Theme.of(context)
                             .colorScheme
                             .onSurface
-                            .withOpacity(0.12),
+                            .withAlpha(30),
                         width: 2,
                       ),
                     ),

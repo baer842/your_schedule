@@ -24,7 +24,7 @@ class SettingsScreen extends ConsumerWidget {
               child: Text(
                 "Design",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.8),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant.withAlpha(200),
                     ),
               ),
             ),
@@ -38,37 +38,29 @@ class SettingsScreen extends ConsumerWidget {
                   context: context,
                   builder: (context) => AlertDialog(
                     title: const Text("Design"),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        RadioListTile<ThemeMode>(
-                          title: const Text("Systemvorgabe"),
-                          value: ThemeMode.system,
-                          groupValue: ref.watch(themeSettingProvider),
-                          onChanged: (value) {
-                            ref.read(themeSettingProvider.notifier).setTheme(value!);
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        RadioListTile<ThemeMode>(
-                          title: const Text("Hell"),
-                          value: ThemeMode.light,
-                          groupValue: ref.watch(themeSettingProvider),
-                          onChanged: (value) {
-                            ref.read(themeSettingProvider.notifier).setTheme(value!);
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        RadioListTile<ThemeMode>(
-                          title: const Text("Dunkel"),
-                          value: ThemeMode.dark,
-                          groupValue: ref.watch(themeSettingProvider),
-                          onChanged: (value) {
-                            ref.read(themeSettingProvider.notifier).setTheme(value!);
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
+                    content: RadioGroup<ThemeMode>(
+                      groupValue: ref.watch(themeSettingProvider),
+                      onChanged: (value) {
+                        ref.read(themeSettingProvider.notifier).setTheme(value!);
+                        Navigator.of(context).pop();
+                      },
+                      child: const Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          RadioListTile<ThemeMode>(
+                            title: Text("Systemvorgabe"),
+                            value: ThemeMode.system,
+                          ),
+                          RadioListTile<ThemeMode>(
+                            title: Text("Hell"),
+                            value: ThemeMode.light,
+                          ),
+                          RadioListTile<ThemeMode>(
+                            title: Text("Dunkel"),
+                            value: ThemeMode.dark,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -113,7 +105,7 @@ class SettingsScreen extends ConsumerWidget {
               child: Text(
                 "Sonstiges",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.8),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant.withAlpha(200),
                     ),
               ),
             ),
