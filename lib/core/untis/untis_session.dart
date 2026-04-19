@@ -18,7 +18,6 @@ sealed class UntisSession with _$UntisSession {
     String appSharedSecret,
     @JsonKey(defaultValue: false) bool passwordIsAppSharedSecret,
     UserData userData,
-    @JsonKey(defaultValue: null) AuthToken? authToken,
     ) = ActiveUntisSession;
 
   const factory UntisSession.inactive({
@@ -75,7 +74,6 @@ Future<ActiveUntisSession> activateSession(WidgetRef ref, UntisSession session, 
     appSharedSecret,
     passwordIsAppSharedSecret,
     userData,
-    await requestAuthToken(session, appSharedSecret, token: token),
   ) as ActiveUntisSession;
   ref.read(untisSessionsProvider.notifier).updateSession(session, activeSession);
   return activeSession;
@@ -89,9 +87,8 @@ Future<ActiveUntisSession> refreshSession(WidgetRef ref, ActiveUntisSession sess
     logRequestError("Error while requesting session data", e, s);
     rethrow;
   }
-  final authToken = await requestAuthToken(session, session.appSharedSecret); 
+  var refreshedSession = session.copyWith(userData: userData);
 
-  var refreshedSession = session.copyWith(userData: userData, authToken: authToken);
   ref.read(untisSessionsProvider.notifier).updateSession(
         session,
         refreshedSession,
