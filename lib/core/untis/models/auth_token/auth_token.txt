@@ -1,0 +1,17 @@
+URL: https://herakles.webuntis.com/WebUntis/api/mobile/v2/cjd-k%C3%B6nigswinter/authentication
+Method: Post
+content-type: application/json; charset=utf-8
+
+Request Body:
+{
+  "oneTimePassword": "123456",
+  "password": "XXXXXXXXXX",
+  "username": "xxxxxxx"
+}
+
+Response Body:
+{
+  "jwt": "very long auth token ..............................",
+  "isPasswordChangeRequired": false,
+  "isEmailUpdateRequired": false
+}
