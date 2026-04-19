@@ -10,8 +10,7 @@ class MessagesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final session =
-    ref.watch(selectedUntisSessionProvider) as ActiveUntisSession;
+    final session = ref.watch(selectedUntisSessionProvider) as ActiveUntisSession;
     final messages = ref.watch(inboxMessagesProvider(session));
 
     return Scaffold(
@@ -21,32 +20,105 @@ class MessagesScreen extends ConsumerWidget {
           ref.invalidate(requestMessagesProvider(session));
           await ref.read(requestMessagesProvider(session).future);
         },
-        child: ListView.builder(
+        child: ListView.separated(
           itemCount: messages.incomingMessages.length,
+          separatorBuilder: (_, _) => const Divider(height: 1, indent: 72),
           itemBuilder: (context, index) {
-            final msg = messages.incomingMessages[index];
-            return ListTile(
-              leading: Icon(
-                msg.isMessageRead ? Icons.mail_outline : Icons.mail,
-              ),
-              title: Text(msg.subject),
-              subtitle: Text(
-                msg.contentPreview,
-                maxLines: 1,                          // Feature 1
-                overflow: TextOverflow.ellipsis,
-              ),
-              trailing: Text(msg.sender.displayName),
-              onTap: () {                             // Feature 2
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        MessageDetailScreen(messageId: msg.id),
-                  ),
-                );
-              },
-            );
+            return _MessageTile(msg: messages.incomingMessages[index]);
           },
+        ),
+      ),
+    );
+  }
+}
+
+class _MessageTile extends StatelessWidget {
+  const _MessageTile({required this.msg});
+
+  final IncomingMessage msg;
+
+  String _formattedDate(DateTime date) {
+    final now = DateTime.now();
+    final isToday =
+        date.year == now.year && date.month == now.month && date.day == now.day;
+    if (isToday) {
+      return '${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
+    }
+    final isThisYear = date.year == now.year;
+    if (isThisYear) {
+      return '${date.day}.${date.month.toString().padLeft(2, '0')}.';
+    }
+    return '${date.day}.${date.month.toString().padLeft(2, '0')}.${date.year}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return InkWell(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => MessageDetailScreen(messageId: msg.id),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CircleAvatar(
+              radius: 22,
+              backgroundColor: colorScheme.primaryContainer,
+              child: Text(
+                msg.sender.displayName,
+                style: theme.textTheme.titleSmall?.copyWith(
+                  color: colorScheme.onPrimaryContainer,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    msg.subject,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    msg.contentPreview,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  _formattedDate(msg.sentDateTime),
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+
+              ],
+            ),
+          ],
         ),
       ),
     );

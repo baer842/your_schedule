@@ -18,7 +18,7 @@ sealed class UntisSession with _$UntisSession {
     String appSharedSecret,
     @JsonKey(defaultValue: false) bool passwordIsAppSharedSecret,
     UserData userData,
-    ) = ActiveUntisSession;
+  ) = ActiveUntisSession;
 
   const factory UntisSession.inactive({
     required School school,
@@ -88,7 +88,6 @@ Future<ActiveUntisSession> refreshSession(WidgetRef ref, ActiveUntisSession sess
     rethrow;
   }
   var refreshedSession = session.copyWith(userData: userData);
-
   ref.read(untisSessionsProvider.notifier).updateSession(
         session,
         refreshedSession,
