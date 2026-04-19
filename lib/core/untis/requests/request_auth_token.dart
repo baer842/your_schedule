@@ -5,7 +5,6 @@ import 'package:your_schedule/core/rpc_request/rpc.dart';
 import 'package:your_schedule/core/untis.dart';
 import 'package:your_schedule/util/logger.dart';
 
-
 Future<AuthToken> requestAuthToken(
     UntisSession session,
     String appSharedSecret, {
@@ -36,6 +35,7 @@ Future<AuthToken> requestAuthToken(
   switch (response.statusCode) {
     case 200:
       getLogger().i("Successful auth token request");
+      getLogger().d(jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>);
       return AuthToken.fromJson(
         jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>,
       );

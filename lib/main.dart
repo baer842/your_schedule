@@ -169,13 +169,18 @@ class _InitializerState extends ConsumerState<Initializer> {
       );
     } else {
       // Try to refresh the session
-      bool canMakeRequest = ref.read(canMakeRequestProvider);
+
+      List<ConnectivityResult> connectivity = await Connectivity().checkConnectivity();
+      bool canMakeRequest = !connectivity.contains(ConnectivityResult.none);
+
       if (canMakeRequest) {
         getLogger().i("Refreshing session");
         bool shouldContinue = await _refreshSession(sessions);
         if (!shouldContinue) {
           return;
         }
+      } else {
+        getLogger().i("Can't make request, navigating to home screen");
       }
 
       Navigator.pushReplacement(
