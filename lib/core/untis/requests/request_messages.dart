@@ -36,12 +36,14 @@ class RequestMessages extends _$RequestMessages {
       {'school': session.school.loginName},
     );
 
+    AuthToken authToken = await ref.read(authTokenProvider(session, session.appSharedSecret).future);
+
     http.Response response;
     try {
       response = await http.get(
         uri,
         headers: {
-          'Authorization': 'Bearer ${session.authToken!.jwt}',
+          'Authorization': 'Bearer ${authToken.jwt}',
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept-Encoding': 'gzip',
           'Cache-Control': 'public, no-cache',

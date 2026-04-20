@@ -14,7 +14,6 @@ import 'package:your_schedule/core/provider/filters.dart';
 import 'package:your_schedule/core/provider/untis_session_provider.dart';
 import 'package:your_schedule/core/rpc_request/rpc.dart';
 import 'package:your_schedule/core/untis.dart';
-import 'package:your_schedule/settings/api_warning_provider.dart';
 import 'package:your_schedule/settings/sentry_provider.dart';
 import 'package:your_schedule/settings/theme_provider.dart';
 import 'package:your_schedule/ui/screens/filter_screen/filter_screen.dart';
@@ -31,7 +30,7 @@ void main() async {
       options
         ..dsn = 'https://1be6b663150041f6be6a7a4375e5599f@o4504990166155264.ingest.sentry.io/4504990173167616'
         ..tracesSampleRate = 1.0
-        ..debug = true //TODO
+        ..debug = false
         ..beforeSend = (event, hint) {
           if (sharedPreferences.getBool("sentryEnabled") != true) {
             return null;
@@ -169,13 +168,18 @@ class _InitializerState extends ConsumerState<Initializer> {
       );
     } else {
       // Try to refresh the session
-      bool canMakeRequest = ref.read(canMakeRequestProvider);
+
+      List<ConnectivityResult> connectivity = await Connectivity().checkConnectivity();
+      bool canMakeRequest = !connectivity.contains(ConnectivityResult.none);
+
       if (canMakeRequest) {
         getLogger().i("Refreshing session");
         bool shouldContinue = await _refreshSession(sessions);
         if (!shouldContinue) {
           return;
         }
+      } else {
+        getLogger().i("Can't make request, navigating to home screen");
       }
 
       Navigator.pushReplacement(
@@ -231,66 +235,6 @@ class _InitializerState extends ConsumerState<Initializer> {
           );
         },
       );
-    }
-
-    bool? apiWarningShown = ref.read(apiWarningShownProvider);
-    if (apiWarningShown != true) {
-      getLogger().i("api warning has not been shown.");
-      bool hasSessions = ref
-          .read(untisSessionsProvider)
-          .isNotEmpty;
-
-      if (!hasSessions) {
-        ref.read(apiWarningShownProvider.notifier).setApiWarningShown(true);
-        getLogger().i("Not showing api warning, no sessions.");
-      } else {
-        getLogger().i("Showing api warning.");
-        await showDialog(
-          context: context,
-          builder: (context) {
-            return Consumer(
-              builder: (context, ref, child) {
-                return AlertDialog(
-                  title: const Text("Achtung!"),
-                  content: const Text(
-                      "Wegen einer Umstellung bei Untis musst du deinen Account einmal entfernen und neu hinzufügen!"),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        ref
-                            .read(apiWarningShownProvider.notifier)
-                            .setApiWarningShown(true);
-                      },
-                      child: const Text("Nein"),
-                    ),
-                    FilledButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        UntisSession session = ref.read(
-                            selectedUntisSessionProvider);
-                        ref
-                            .read(untisSessionsProvider.notifier)
-                            .markSessionForRemoval(session);
-                        ref
-                            .read(apiWarningShownProvider.notifier)
-                            .setApiWarningShown(true);
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const WelcomeScreen(),
-                          ),
-                        );
-                      },
-                      child: const Text("Account entfernen"),
-                    ),
-                  ],
-                );
-              },
-            );
-          },
-        );
-      }
     }
   }
 
