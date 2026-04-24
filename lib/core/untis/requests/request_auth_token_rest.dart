@@ -11,9 +11,9 @@ part 'request_auth_token_rest.g.dart';
 Future<String> authTokenRest(
     Ref ref,
     UntisSession session,
-    String appSharedSecret, {
-      String oneTimePassword = '',
-    }) async {
+    String appSharedSecret,
+    { String oneTimePassword = '' })
+async {
 
   final schoolEncoded = Uri.encodeComponent(session.school.loginName);
   final uri = Uri.https(
