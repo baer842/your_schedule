@@ -5,10 +5,10 @@ import 'package:your_schedule/core/rpc_request/rpc.dart';
 import 'package:your_schedule/core/untis.dart';
 import 'package:your_schedule/util/logger.dart';
 
-part 'request_auth_token.g.dart';
+part 'request_auth_token_rest.g.dart';
 
 @Riverpod(keepAlive: true)
-Future<String> authToken(
+Future<String> authTokenRest(
     Ref ref,
     UntisSession session,
     String appSharedSecret, {

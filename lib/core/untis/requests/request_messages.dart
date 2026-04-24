@@ -36,7 +36,7 @@ class RequestMessages extends _$RequestMessages {
       {'school': session.school.loginName},
     );
 
-    String authToken = await ref.read(authTokenV2Provider(session, session.appSharedSecret).future);
+    String authToken = await ref.read(authTokenProvider(session).future);
 
     http.Response response;
     try {
