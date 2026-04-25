@@ -12,13 +12,13 @@ part 'untis_session.g.dart';
 @freezed
 sealed class UntisSession with _$UntisSession {
   const factory UntisSession.active(
-      School school,
-      String username,
-      String password,
-      String appSharedSecret,
-      @JsonKey(defaultValue: false) bool passwordIsAppSharedSecret,
-      UserData userData,
-      ) = ActiveUntisSession;
+    School school,
+    String username,
+    String password,
+    String appSharedSecret,
+    @JsonKey(defaultValue: false) bool passwordIsAppSharedSecret,
+    UserData userData,
+  ) = ActiveUntisSession;
 
   const factory UntisSession.inactive({
     required School school,
@@ -76,7 +76,6 @@ Future<ActiveUntisSession> activateSession(WidgetRef ref, UntisSession session, 
     userData,
   ) as ActiveUntisSession;
   ref.read(untisSessionsProvider.notifier).updateSession(session, activeSession);
-  ref.read(authTokenProvider(activeSession, appSharedSecret, oneTimePassword: token).future).ignore();
   return activeSession;
 }
 

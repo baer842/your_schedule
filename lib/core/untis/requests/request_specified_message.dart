@@ -39,14 +39,14 @@ class RequestSpecifiedMessage extends _$RequestSpecifiedMessage {
       {'school': session.school.loginName},
     );
 
-    String authToken = await ref.read(authTokenV2Provider(session, session.appSharedSecret).future);
+    AuthToken authToken = await ref.read(authTokenProvider(session).future);
 
     http.Response response;
     try {
       response = await http.get(
         uri,
         headers: {
-          'Authorization': 'Bearer $authToken',
+          'Authorization': 'Bearer ${authToken.jwt}',
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept-Encoding': 'gzip',
           'Cache-Control': 'public, no-cache',
