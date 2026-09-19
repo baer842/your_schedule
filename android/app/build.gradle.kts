@@ -15,7 +15,7 @@ if (hasKeystoreProperties) {
 }
 
 android {
-    namespace = "eu.laslo_hauschild.your_schedule"
+    namespace = "eu.sentry_free.your_schedule"
     compileSdk = maxOf(flutter.compileSdkVersion, 37)
     ndkVersion = flutter.ndkVersion
 
@@ -33,31 +33,13 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "eu.laslo_hauschild.your_schedule"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        applicationId = "eu.sentry_free.your_schedule"
+        minSdk =  37 //flutter.minSdkVersion
+        targetSdk = 37 //flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
 
         multiDexEnabled = true
-    }
-
-    signingConfigs {
-        // Gradle configures this whole `android {}` block for every task, including
-        // `assembleDebug` — not just when a release build is actually requested — so
-        // this must not crash when key.properties is absent (e.g. CI, a fresh
-        // checkout without the maintainer's local signing key).
-        if (hasKeystoreProperties) {
-            create("release") {
-                keyAlias = keystoreProperties["keyAlias"] as String
-                keyPassword = keystoreProperties["keyPassword"] as String
-                storeFile = keystoreProperties["storeFile"]?.let { file(it) }
-                storePassword = keystoreProperties["storePassword"] as String
-            }
-        }
     }
 
     buildTypes {

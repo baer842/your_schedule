@@ -1,3 +1,8 @@
+> [!NOTE]
+> This is a fork of the official app but with sentry removed. \
+> The links here to app stores refer to the official app not this fork. \
+> I have no plans to publish this fork on any of these stores.
+
 <img src="https://raw.githubusercontent.com/Lasslos/your_schedule/main/assets/school_blue.png" alt="Icon" width="256">
 
 # EigenPlan for Untis
@@ -59,7 +64,7 @@ above, including the live-API tier, at its default `full` verification level —
 
 ### Code generation
 
-Generate the nessessary code:
+Generate the necessary code:
 ```shell
 dart run build_runner build
 ```

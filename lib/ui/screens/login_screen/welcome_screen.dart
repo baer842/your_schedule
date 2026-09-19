@@ -57,7 +57,7 @@ class WelcomeWidget extends StatelessWidget {
         ),
       ),
       Text(
-        'Willkommen bei\nEigenPlan für Untis!',
+        'Willkommen bei\nYour Schedule!',
         style: Theme.of(context).textTheme.displaySmall,
         textAlign: TextAlign.center,
       ),

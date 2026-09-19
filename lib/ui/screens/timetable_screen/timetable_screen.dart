@@ -31,7 +31,7 @@ class TimetableScreen extends ConsumerWidget {
             children: [
               Flexible(
                 child: Text(
-                  selectedResource?.displayName ?? 'EigenPlan',
+                  selectedResource?.displayName ?? 'Your Schedule',
                   overflow: TextOverflow.ellipsis,
                 ),
               ),

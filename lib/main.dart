@@ -46,7 +46,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   Widget build(BuildContext context) {
     var theme = ref.watch(themeSettingProvider);
     return MaterialApp(
-      title: 'EigenPlan',
+      title: 'Your Schedule',
       theme: ThemeData(
         colorSchemeSeed: Colors.lightBlue,
         brightness: Brightness.light,
