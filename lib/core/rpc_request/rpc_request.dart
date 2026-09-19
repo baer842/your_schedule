@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:http/http.dart' as http;
 import 'package:otp/otp.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:your_schedule/core/rpc_request/rpc.dart';
 import 'package:your_schedule/utils.dart';
 
@@ -66,23 +65,6 @@ Future<RPCResponse> rpcRequest({
 }) async {
   // Set id for current request.
   int id = _id++;
-  // Add breadcrumb to Sentry, scrub sensitive data.
-  await Sentry.addBreadcrumb(
-    Breadcrumb(
-      message: 'Performing rpc request $method to $serverUrl',
-      category: 'rpc.info',
-      data: {
-        'id': id,
-        'method': method,
-        if (params is List && params[0] is Map<String, dynamic>)
-          'params': ({...(params[0] as Map<String, dynamic>)})
-            ..scrubIfPresent('auth', (value) => 'scrubbed')
-            ..scrubIfPresent('userName', (value) => 'scrubbed')
-            ..scrubIfPresent('password', (value) => 'scrubbed'),
-      },
-      level: SentryLevel.info,
-    ),
-  );
 
   // Send request to server.
   http.Response response;
@@ -100,18 +82,7 @@ Future<RPCResponse> rpcRequest({
       },
     );
   } catch (e, s) {
-    // Capture error with Sentry and log it.
-    await Sentry.captureException(
-      e,
-      stackTrace: s,
-      hint: Hint.withMap(
-        {
-          'serverUrl': serverUrl.toString(),
-          'method': method,
-          'params': params,
-        },
-      ),
-    );
+
     getLogger().e('Error while performing rpcRequest $method to server $serverUrl', error: e, stackTrace: s);
     rethrow;
   }

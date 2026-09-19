@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:your_schedule/core/provider/untis_session_provider.dart';
 import 'package:your_schedule/core/untis.dart';
@@ -25,7 +24,6 @@ class CustomSubjectColors extends _$CustomSubjectColors {
     try {
       initializeFromPrefs();
     } catch (e, s) {
-      Sentry.captureException(e, stackTrace: s);
       getLogger().e('Error while parsing json', error: e, stackTrace: s);
     }
     return {};

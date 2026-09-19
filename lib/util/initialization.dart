@@ -11,7 +11,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:your_schedule/core/provider/untis_session_provider.dart';
 import 'package:your_schedule/core/rpc_request/rpc.dart';
 import 'package:your_schedule/core/untis/untis_session.dart';
-import 'package:your_schedule/settings/sentry_provider.dart';
 import 'package:your_schedule/util/logger.dart';
 import 'package:your_schedule/util/shared_preferences.dart';
 import 'package:your_schedule/util/storage_migration.dart';
@@ -41,10 +40,6 @@ Future<void> initializeApp() async {
   // Session list (school/userData from SharedPreferences, credentials from secure storage)
   await loadSessionsFromDisk();
 
-  // Enable sentry if consent is given
-  if (sharedPreferences.getBool('sentryEnabled') == true) {
-    await enableSentry();
-  }
 }
 
 enum StartupDestination { login, home }

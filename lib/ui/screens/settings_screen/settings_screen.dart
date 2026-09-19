@@ -6,7 +6,6 @@ import 'package:your_schedule/core/provider/untis_session_provider.dart';
 import 'package:your_schedule/core/untis.dart';
 import 'package:your_schedule/settings/dashboard_cards_provider.dart';
 import 'package:your_schedule/settings/grid_cell_height_provider.dart';
-import 'package:your_schedule/settings/sentry_provider.dart';
 import 'package:your_schedule/settings/theme_provider.dart';
 import 'package:your_schedule/ui/screens/filter_screen/filter_screen.dart';
 import 'package:your_schedule/ui/screens/login_screen/welcome_screen.dart';
@@ -177,45 +176,6 @@ class SettingsScreen extends ConsumerWidget {
                 ).colorScheme.onSurfaceVariant.withAlpha(200),
               ),
             ),
-          ),
-          ListTile(
-            title: const Text('Fehlerberichte senden'),
-            subtitle: ref.watch(sentrySettingsProvider) == true
-                ? const Text('Aktiviert')
-                : const Text('Deaktiviert'),
-            onTap: () async {
-              final consent = await showDialog<bool>(
-                context: context,
-                builder: (dialogContext) {
-                  return AlertDialog(
-                    title: const Text('Fehlerberichte senden?'),
-                    content: const Text(
-                      'EigenPlan wird kontinuierlich verbessert. Wir verwenden Sentry, um Fehlerberichte zu sammeln. '
-                      'Fehlerberichte helfen uns dabei, Probleme zu erkennen und zu beheben. Dafür benötigen wir jedoch deine Zustimmung. '
-                      'Du kannst deine Zustimmung jederzeit in den Einstellungen widerrufen. Möchtest du Fehlerberichte senden?',
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(dialogContext, true);
-                        },
-                        child: const Text('Ja'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(dialogContext, false);
-                        },
-                        child: const Text('Nein'),
-                      ),
-                    ],
-                  );
-                },
-              );
-
-              if (consent != null && context.mounted) {
-                await ref.read(sentrySettingsProvider.notifier).setSentryEnabled(consent);
-              }
-            },
           ),
           ListTile(
             title: Text(
