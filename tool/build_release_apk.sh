@@ -42,7 +42,6 @@ fail() { echo "  MISMATCH: $1" >&2; toolchain_ok=0; }
 
 printf '  flutter   %s (%s) %s\n' "$actual_flutter" "$actual_channel" "$actual_repo"
 printf '  sdk path  %s\n' "$flutter_root"
-printf '  jdk       %s\n' "$(java -version 2>&1 | head -n1)"
 printf '  cpus      %s\n' "$(nproc)"
 
 if [[ $toolchain_ok -eq 0 ]]; then
