@@ -66,3 +66,8 @@ test/live/credentials.local.json
 
 # Working directory of tool/rb_compare.sh (two release APKs plus their unpacked trees).
 /.rb-compare/
+
+tool/release.sh
+apkbuilds/
+
+.gitignore
