@@ -47,6 +47,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     var theme = ref.watch(themeSettingProvider);
     return MaterialApp(
       title: 'Your Schedule',
+      home: const Initializer(),
       theme: ThemeData(
         colorSchemeSeed: Colors.lightBlue,
         brightness: Brightness.light,

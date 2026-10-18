@@ -72,12 +72,14 @@ Future<StartupDestination> appStartup(Ref ref) async {
 
   try {
     getLogger().i('Refreshing session');
-    final newSession = await refreshSession(sessions[0] as ActiveUntisSession);
+    final newSession = await refreshSession(sessions[0] as ActiveUntisSession).timeout(const Duration(seconds: 15));
     ref.read(untisSessionsProvider.notifier).updateSession(sessions[0], newSession);
   } on RPCError catch (e, s) {
     await _handleRPCError(ref, sessions, e, s);
   } on (SocketException, TimeoutException, ClientException) {
     getLogger().w('No internet connection, using cached data');
+  } on TimeoutException {
+    getLogger().w('Session refresh timed out, using cached data');
   }
   return StartupDestination.home;
 }
