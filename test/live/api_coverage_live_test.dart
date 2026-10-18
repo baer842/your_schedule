@@ -93,10 +93,7 @@ void main() {
         try {
           // Bounded so one stuck section can't eat the whole run — observed: a
           // provider whose build() threw a non-2xx HTTP/RPC error would sometimes
-          // never settle its .future in this test harness (root cause not pinned
-          // down; ruled out Sentry.captureException in logRequestError() — its
-          // NoOpHub, active whenever SentryFlutter.init() hasn't run, resolves
-          // immediately, so that's not it).
+          // never settle its .future in this test harness
           await body(sectionContainer).timeout(const Duration(seconds: 20));
         } catch (e) {
           stdout.writeln('  ✗ $label: threw $e');
