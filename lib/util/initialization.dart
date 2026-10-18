@@ -72,7 +72,7 @@ Future<StartupDestination> appStartup(Ref ref) async {
 
   try {
     getLogger().i('Refreshing session');
-    final newSession = await refreshSession(sessions[0] as ActiveUntisSession).timeout(const Duration(seconds: 15));
+    final newSession = await refreshSession(sessions[0] as ActiveUntisSession).timeout(const Duration(seconds: 5));
     ref.read(untisSessionsProvider.notifier).updateSession(sessions[0], newSession);
   } on RPCError catch (e, s) {
     await _handleRPCError(ref, sessions, e, s);
